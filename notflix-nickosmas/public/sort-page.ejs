@@ -1,0 +1,184 @@
+Special page for sorted movies by genre. Otherwise very similar to home-page contentwise
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notflix</title>
+
+    <!--Set the favicon!-->
+    <link rel="shortcut icon" type="img/png" href="img/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i' type='text/css' media='all' />
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+
+<body>
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <img src="img/NopeflixRed.png" alt="NotFlix">
+            <a class="navbar-brand" href="/home-page">Home</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+
+                <!-- Top navigation bar -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#"> TV Shows </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link active" href="/home-page">Movies <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">News & Popular</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">My List</a>
+                    </li>
+                </ul>
+                <!-- Start of Search -->
+                <form name="frmSearch" action="search-page" method="POST" class="form-inline mt-2 mt-md-0">
+                    <input name="txtSearch" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <!--Main Area-->
+    <main role="main" class="container">
+        <ul class="nav">
+            <li class="movies">
+                <a class="movies-link active" href="#">
+                    <%=movies[0].Genre%>
+                </a>
+            </li>
+
+            <!-- Dropdown for genres selection -->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Genres</button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="home-page-genre?g=action">Action</a>
+                    <a class="dropdown-item" href="home-page-genre?g=anime">Anime</a>
+                    <a class="dropdown-item" href="home-page-genre?g=drama">Drama</a>
+                    <a class="dropdown-item" href="home-page-genre?g=crime drama">Crime Drama</a>
+                    <a class="dropdown-item" href="home-page-genre?g=comedy">Comedy</a>
+                    <a class="dropdown-item" href="home-page-genre?g=stand-up comedy">Stand-Up Comedy</a>
+                    <a class="dropdown-item" href="home-page-genre?g=thriller">Thriller</a>
+                    <a class="dropdown-item" href="home-page-genre?g=western">Western</a>
+                </div>
+            </div>
+        </ul>
+
+        <% if (typeof search!='undefined' && search==true) { %>
+            <a class="clear" href="/home-page">Clear Results</a>
+            <% } %>
+
+                <div>
+                    <div class="row row-cols-7 row-cols-md-3 ">
+                        <% movies.forEach(function(movie) { %>
+                            <div class="col mb-1 ">
+                                <div class="card " style="width: 20rem; ">
+
+                                    <div class="card-body ">
+
+                                        <img class="card-img-top " width=1000rem height=150rem alt="... " src=<%=movie.Poster %>>
+                                        <h5 class="card-title " style="font-size:21px ">
+                                            <%=movie.MovieName %>
+                                        </h5>
+
+                                        <!-- Button trigger modal -->
+                                        <!-- Use unique movie id for data-target -->
+                                        <button type="button" class="movie-details" data-toggle="modal" data-target=#m<%=movie.MovieId%>>More Info</button>
+
+                                        <!-- Modal -->
+                                        <!-- Use unique movie id for modal id -->
+                                        <div class="modal fade" id=m<%=movie.MovieId%> tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+                                            <div class="modal-dialog" role="document ">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title" id="exampleModalLabel ">
+                                                            <%=movie.MovieName %>
+                                                        </h1>
+
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>        </button>
+                                                    </div>
+                                                    <div class="modal-body ">
+                                                        <!-- Embed a Youtube Video and add remove frame border to blend smoothly with the dark backgroung-->
+                                                        <iframe class="card-img-top" width="1000rem" height="315" src="<%=movie.Video%>" autoplay=1 frameborder="0" allowfullscreen> ></iframe>
+
+                                                    </div>
+                                                    <div class="modal-footer ">
+
+                                                        <ul class="nav">
+
+                                                            </li>
+
+                                                            <li class="modal-nav-item ">
+                                                                <h4 class="length" id="exampleModalLabel ">
+                                                                    <%=movie.Length%> Minutes
+                                                                </h4>
+                                                            </li>
+
+                                                            <li class="modal-nav-item ">
+                                                                <h4 class="genre" id="exampleModalLabel ">
+                                                                    Genre:
+                                                                    <%=movie.Genre%>
+                                                                </h4>
+                                                            </li>
+
+                                                            <li class="modal-nav-item ">
+                                                                <h4 class="date" id="exampleModalLabel ">
+                                                                    <%=movie.ReleaseDate%>
+                                                                </h4>
+                                                            </li>
+
+                                                            <li class="modal-nav-item ">
+                                                                <h4 class="rating" id="exampleModalLabel ">
+                                                                    <%=movie.Rating%>
+                                                                </h4>
+                                                            </li>
+
+                                                            <h5 class="desc" id="exampleModalLabel ">
+                                                                <%=movie.Description%>
+                                                            </h5>
+
+                                                        </ul>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+                </div>
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer class="footer ">
+        <div class="container ">
+            <span class="text-muted ">&copy;Copyright 2020 Notflix</span>
+        </div>
+    </footer>
+
+    <!-- Footer -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js " integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js " integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN " crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js " integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV " crossorigin="anonymous "></script>
+</body>
+
+</html>
